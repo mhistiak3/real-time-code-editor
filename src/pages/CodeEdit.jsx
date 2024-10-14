@@ -1,7 +1,30 @@
 import { useState } from "react";
+import User from "../components/User";
+import Message from "../components/Message";
 
 const CodeEdit = () => {
   const [activeTab, setActiveTab] = useState("users");
+  const [clients, setClients] = useState([
+    {
+      socketId: "1",
+      username: "Istiak Ahammad",
+    },
+    {
+      socketId: "2",
+      username: "Hossain Ahammad",
+    },
+  ]);
+  const [chatMessages, setChatMessages] = useState([
+    { socketId: "1", sender: "Istiak Ahammad", message: "Hello" },
+    { socketId: "1", sender: "Bappi", message: "Hi" },
+    { socketId: "1", sender: "Istiak Ahammad", message: "is this code right?" },
+    {
+      socketId: "1",
+      sender: "Bappi",
+      message:
+        "i don't know about coding much but you can take help from cahtgpt.",
+    },
+  ]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -39,17 +62,20 @@ const CodeEdit = () => {
           {activeTab === "users" ? (
             <div className="users-tab">
               <h3>Joined Users</h3>
+
               <ul>
-                <li>User 1</li>
-                <li>User 2</li>
+                {clients.map((client) => (
+                  <User username={client.username} key={client.socketId} />
+                ))}
               </ul>
             </div>
           ) : (
             <div className="chat-tab">
               <h3>Group Chat</h3>
               <div className="chat-messages">
-                <p>User 1: Hello!</p>
-                <p>User 2: Hi there!</p>
+                {chatMessages.map((message) => (
+                  <Message message={message} />
+                ))}
               </div>
               <input
                 type="text"
