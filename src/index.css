@@ -130,3 +130,162 @@ input[type="text"]:focus {
 .join-btn:hover {
   background-color: var(--hover-accent-color);
 }
+
+/* *  CODE EDIT *  */
+.editor-page-container {
+  display: flex;
+  height: 100vh;
+  background: var(--background-gradient);
+}
+
+.left-sidebar {
+  width: 300px;
+  background-color: var(--form-background);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-section {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+}
+
+.room-info {
+  margin-bottom: 20px;
+}
+
+.room-code {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.code {
+  background-color: var(--input-border);
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: var(--text-color);
+}
+
+.copy-btn {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.copy-btn:hover {
+  background-color: var(--shadow-color);
+}
+
+.leave-btn {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.leave-btn:hover {
+  background-color: var(--hover-accent-color);
+}
+
+.tabs {
+  display: flex;
+  margin-left: 10px;
+
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--input-border);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.tab-btn.active {
+  background-color: var(--secondary-color);
+}
+
+.tab-btn:hover {
+  background-color: var(--primary-color);
+}
+
+.tab-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.users-tab ul {
+  list-style: none;
+  padding: 0;
+}
+
+.users-tab ul li {
+  padding: 10px;
+  background-color: var(--input-border);
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.chat-tab {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  overflow-y: auto;
+}
+
+.chat-input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--input-border);
+  color: var(--text-color);
+  outline: none;
+}
+
+.right-editor {
+  flex-grow: 1;
+  background-color: var(--form-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.code-editor {
+  width: 90%;
+  height: 90%;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  outline: none;
+  resize: none;
+}
