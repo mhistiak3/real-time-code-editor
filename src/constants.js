@@ -7,6 +7,7 @@ export const CODE_SNIPPETS = {
   javascript: `
 // Write a function called areAllCharactersUnique that takes in a string 
 // and returns true or false depending on whether all characters in the string are unique.
+// Only javscript is supported.
 
 function areAllCharactersUnique(str) {
   const charCount = {};

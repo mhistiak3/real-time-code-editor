@@ -38,8 +38,6 @@ const EditorComponent = () => {
   return (
     <div className="editor-container">
       <div className="editor-section">
-
-        
         <Editor
           options={{
             minimap: {
@@ -56,7 +54,7 @@ const EditorComponent = () => {
         />
       </div>
       <button className="run-button" onClick={runCode} disabled={isLoading}>
-        {isLoading ? "Running..." : "Run Code"}
+        {isLoading ? "🧑‍💻 Running..." : "🧑‍💻 Run Code"}
       </button>
       <Output output={output} isError={isError} />
     </div>
