@@ -6,16 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "server:dev":"nodemon server.js",
+    "server:prod":"node server.js",
     "preview": "vite preview"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "axios": "^1.7.7",
+    "express": "^4.21.1",
     "react": "^18.3.1",
     "react-avatar": "^5.0.3",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
+    "socket.io": "^4.8.0",
+    "socket.io-client": "^4.8.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
