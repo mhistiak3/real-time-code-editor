@@ -1,10 +1,8 @@
 import { Editor } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import Output from "./Output";
-import { LANGUAGE_VERSIONS, CODE_SNIPPETS } from "../constants";
+import { CODE_SNIPPETS } from "../constants";
 import { executeCode } from "../api";
-
-
 
 const EditorComponent = () => {
   const editorRef = useRef();
@@ -19,7 +17,6 @@ const EditorComponent = () => {
     editor.focus();
   };
 
- 
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
