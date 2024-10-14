@@ -1,6 +1,7 @@
 import { useState } from "react";
 import User from "../components/User";
 import Message from "../components/Message";
+import EditorComponent from "../components/Editor";
 
 const CodeEdit = () => {
   const [activeTab, setActiveTab] = useState("users");
@@ -88,10 +89,7 @@ const CodeEdit = () => {
       </div>
 
       <div className="right-editor">
-        <textarea
-          className="code-editor"
-          placeholder="Write your code here..."
-        ></textarea>
+        <EditorComponent />
       </div>
     </div>
   );

@@ -134,12 +134,13 @@ input[type="text"]:focus {
 /* *  CODE EDIT *  */
 .editor-page-container {
   display: flex;
-  height: 100vh;
+
   background: var(--background-gradient);
+ 
 }
 
 .left-sidebar {
-  width: 300px;
+  width: 350px;
   background-color: var(--form-background);
   color: var(--text-color);
   display: flex;
@@ -194,7 +195,7 @@ input[type="text"]:focus {
 
 .tabs {
   display: flex;
-  margin-left: 10px;
+  margin: 0 5px;
 }
 
 .tab-btn {
@@ -207,10 +208,10 @@ input[type="text"]:focus {
   font-size: 1rem;
   transition: background-color 0.3s;
 }
-.tab-btn:first-child{
+.tab-btn:first-child {
   border-radius: 5px 0 0 5px;
 }
-.tab-btn:last-child{
+.tab-btn:last-child {
   border-radius: 0px 5px 5px 0px;
 }
 
@@ -231,7 +232,6 @@ input[type="text"]:focus {
   background-color: var(--secondary-color);
   padding: 10px;
   border-radius: 5px;
-
 }
 .users-tab ul {
   list-style: none;
@@ -251,7 +251,7 @@ input[type="text"]:focus {
 .chat-tab {
   display: flex;
   flex-direction: column;
-  height: 100%;  
+  height: 100%;
 }
 
 .chat-messages {
@@ -259,10 +259,10 @@ input[type="text"]:focus {
   margin-bottom: 10px;
   overflow-y: auto;
   background-color: var(--secondary-color);
-   padding: 10px;
+  padding: 10px;
   border-radius: 5px;
 }
-.message{
+.message {
   padding: 10px;
   border-radius: 5px;
   background-color: var(--input-border);
@@ -282,24 +282,64 @@ input[type="text"]:focus {
   outline: none;
 }
 
+
 .right-editor {
   flex-grow: 1;
-  background-color: var(--form-background);
+  overflow: hidden;
+
+}
+.editor-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+  color: #f5f5f5;
+ 
 }
 
-.code-editor {
-  width: 90%;
-  height: 90%;
-  background-color: var(--primary-color);
-  color: var(--text-color);
+.editor-section {
+  margin-bottom:5px;
+  padding: 10px;
+  background-color: #1e1e1e; /* Darker background for the editor */
+}
+
+.run-button {
+  background-color: #e84545;
+  color: #f5f5f5;
+  padding: 10px 20px;
+  font-size: 1.2rem;
   border: none;
-  padding: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 200px;
+  margin: 20px auto; /* Center the button */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.output-section {
+  background-color: #1a1a1a;
   border-radius: 10px;
-  font-family: "Courier New", monospace;
-  font-size: 1rem;
-  outline: none;
-  resize: none;
+  padding: 20px;
+  margin-top: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  color: #e84545;
+  font-size: 1.5rem;
+}
+
+.output-display {
+  background-color: #2b2b2b;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 100px;
+  max-height: 300px; /* Limit height for better design */
+  overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.output-display.error {
+  color: #ff4b5c; /* Red color for error output */
 }
