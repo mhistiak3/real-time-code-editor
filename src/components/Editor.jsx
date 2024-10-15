@@ -53,12 +53,11 @@ const EditorComponent = ({ socketRef, roomId, onCodeChange }) => {
   useEffect(() => {
     if (socketRef.current) {
       socketRef.current.on(ACTIONS.SYNC_CODE, ({ code }) => {
-        if(code){
+        if (code) {
           setValue(code);
           editorValueRef.current = code;
         }
-        
-      })
+      });
       const handleCodeChange = ({ code }) => {
         if (code !== null && code !== editorValueRef.current) {
           setValue(code);
