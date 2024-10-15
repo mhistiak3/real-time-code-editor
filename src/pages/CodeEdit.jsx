@@ -4,7 +4,7 @@ import Message from "../components/Message";
 import EditorComponent from "../components/Editor";
 import { initSocket } from "../socket";
 import { ACTIONS } from "../Actions";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const CodeEdit = () => {
   const socketRef = useRef(null);
@@ -32,18 +32,33 @@ const CodeEdit = () => {
   ]);
   const { roomId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  // handleError
+  const handleError = (err) => {
+    console.log(err);
+    navigate("/error");
+    
+  }
   useEffect(() => {
     const init = async () => {
-      socketRef.current = await initSocket();
-      // socketRef.current.emit(ACTIONS.JOIN, {
-      //   roomId,
-      //   username: location?.state?.username
-      // });
+      try {
+        socketRef.current = await initSocket();
+        // Handle Error
+        socketRef.current.on("connect_error", (err) => handleError(err));
+        socketRef.current.on("connect_failed", (err) => handleError(err));
+
+        socketRef.current.emit(ACTIONS.JOIN, {
+          roomId,
+          username: location?.state?.username,
+        });
+      } catch (error) {
+        handleError(error);
+      }
     };
     init();
   }, []);
