@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import User from "../components/User";
 import Message from "../components/Message";
 import EditorComponent from "../components/Editor";
+import { initSocket } from "../socket";
+import { ACTIONS } from "../Actions";
+import { useLocation, useParams } from "react-router-dom";
 
 const CodeEdit = () => {
+  const socketRef = useRef(null);
   const [activeTab, setActiveTab] = useState("users");
   const [clients, setClients] = useState([
     {
@@ -26,11 +30,23 @@ const CodeEdit = () => {
         "i don't know about coding much but you can take help from cahtgpt.",
     },
   ]);
+  const { roomId } = useParams();
+  const location = useLocation();
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  useEffect(() => {
+    const init = async () => {
+      socketRef.current = await initSocket();
+      // socketRef.current.emit(ACTIONS.JOIN, {
+      //   roomId,
+      //   username: location?.state?.username
+      // });
+    };
+    init();
+  }, []);
   return (
     <div className="editor-page-container">
       <div className="left-sidebar">
