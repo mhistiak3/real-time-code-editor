@@ -88,6 +88,12 @@ const CodeEdit = () => {
       }
     };
     init();
+
+    return () => {
+      socketRef.current.off(ACTIONS.JOINED);
+      socketRef.current.off(ACTIONS.DISCONNECTED);
+      socketRef.current?.disconnect();
+    }
   }, []);
   return (
     <div className="editor-page-container">
