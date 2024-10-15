@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm install && vite build",
     "server:dev": "nodemon server.js",
-    "server:prod": "node server.js",
+    "start": "node server.js",
     "preview": "vite preview"
   },
   "dependencies": {
