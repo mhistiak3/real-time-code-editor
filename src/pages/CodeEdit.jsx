@@ -7,6 +7,7 @@ import { ACTIONS } from "../../Actions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { validate } from "uuid";
 import toast from "react-hot-toast";
+import TopBar from "../components/TopBar";
 
 const CodeEdit = () => {
   const socketRef = useRef(null);
@@ -23,10 +24,7 @@ const CodeEdit = () => {
   };
 
   // Copy To Clip Board
-  const copyToClipBoard = () => {
-    navigator.clipboard.writeText(roomId);
-    toast.success("Room ID Copied to Clipboard");
-  };
+
 
   // handleError
   const handleError = (err) => {
@@ -73,7 +71,7 @@ const CodeEdit = () => {
         // Handel Joined User
         socketRef.current.on(
           ACTIONS.JOINED,
-          ({ clients, username, socketId }) => {
+          ({ clients, username,  }) => {
             if (username !== location?.state?.username) {
               toast.success(`${username} joined the room`);
             }
@@ -89,10 +87,10 @@ const CodeEdit = () => {
           );
         });
 
-        // Messsage Event
+        // Handle Messsage Event
         socketRef.current.on(ACTIONS.NEW_CHAT_MESSAGE, ({ messageObj }) => {
           console.log(messageObj);
-          
+
           setChatMessages((prev) => [...prev, { ...messageObj }]);
         });
       } catch (error) {
@@ -103,6 +101,7 @@ const CodeEdit = () => {
 
     return () => {
       socketRef.current.off(ACTIONS.JOINED);
+      socketRef.current.off(ACTIONS.NEW_CHAT_MESSAGE);
       socketRef.current.off(ACTIONS.DISCONNECTED);
       socketRef.current?.disconnect();
     };
@@ -111,19 +110,7 @@ const CodeEdit = () => {
   return (
     <div className="editor-page-container">
       <div className="left-sidebar">
-        <div className="top-section">
-          <div className="logo">
-            <img src="/logo.png" alt="Logo" />
-          </div>
-          <div className="room-info">
-            <div className="room-code">
-              <button className="copy-btn" onClick={copyToClipBoard}>
-                Copy Room ID
-              </button>
-            </div>
-            <button className="leave-btn">Leave Room</button>
-          </div>
-        </div>
+        <TopBar />
         <div className="tabs">
           <button
             className={`tab-btn ${activeTab === "users" ? "active" : ""}`}
@@ -157,7 +144,7 @@ const CodeEdit = () => {
                   <Message key={index} message={message} />
                 ))}
               </div>
-              <form onSubmit={handleSubmit} >
+              <form onSubmit={handleSubmit}>
                 <input
                   type="text"
                   placeholder="Type a message..."

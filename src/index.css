@@ -1,8 +1,10 @@
 :root {
   --primary-color: #0f0c29;
   --secondary-color: #302b63;
-  --accent-color: #e84545;
-  --hover-accent-color: #ff4b5c;
+  /* --accent-color: #e84545; */
+  --accent-color: #4f00bd;
+  /* --hover-accent-color: #ff4b5c; */
+  --hover-accent-color: #853dea;
   --background-gradient: linear-gradient(
     135deg,
     var(--primary-color) 0%,
