@@ -81,7 +81,7 @@ const EditorComponent = ({ socketRef, roomId, onCodeChange }) => {
           options={{
             minimap: { enabled: false },
           }}
-          height="80vh"
+          height="65vh"
           theme="vs-dark"
           language={language}
           defaultValue={value}
