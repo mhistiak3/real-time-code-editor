@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
   const generateRoomId = () => {
     const generatedId = uuidv4();
     setRoomId(generatedId);
+    toast.success("Room ID Created");
   };
 
   const handleSubmit = (e) => {
@@ -54,7 +56,7 @@ const Home = () => {
                   className="generate-room-btn"
                   onClick={generateRoomId}
                 >
-                  GenerateID
+                  CreateID
                 </button>
               </div>
             </div>

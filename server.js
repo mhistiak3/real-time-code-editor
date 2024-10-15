@@ -1,15 +1,41 @@
 import express from "express"
 import http from "http"
 import { Server } from "socket.io"
+import { ACTIONS } from "./Actions.js";
 
 const app = express();
 const server = http.createServer(app);
-
-// initialize socket.io
 const io = new Server(server);
+
+const userSocketMap = {}
+const getALlConnectedClients = (roomId) => {
+  return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
+    (socketId) => {
+    return {
+      socketId,
+      username: userSocketMap[socketId],
+    };
+    }
+  );
+}
+// initialize socket.io
 
 io.on("connection", (socket) => {
     console.log("socket connected: " + socket.id);
+
+    socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
+     userSocketMap[socket.id] = username;
+     socket.join(roomId);
+     const clients = getALlConnectedClients(roomId);
+   clients.forEach(({ socketId }) => {
+     io.to(socketId).emit(ACTIONS.JOINED, {
+       clients,
+       username,
+       socketId: socket.id,
+     })
+   })
+      
+    })
     
 });
 

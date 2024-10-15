@@ -3,28 +3,21 @@ import User from "../components/User";
 import Message from "../components/Message";
 import EditorComponent from "../components/Editor";
 import { initSocket } from "../socket";
-import { ACTIONS } from "../Actions";
+import { ACTIONS } from "../../Actions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { validate } from "uuid";
+import toast from "react-hot-toast";
 
 const CodeEdit = () => {
   const socketRef = useRef(null);
   const [activeTab, setActiveTab] = useState("users");
-  const [clients, setClients] = useState([
-    {
-      socketId: "1",
-      username: "Istiak Ahammad",
-    },
-    {
-      socketId: "2",
-      username: "Hossain Ahammad",
-    },
-  ]);
+  const [clients, setClients] = useState([]);
   const [chatMessages, setChatMessages] = useState([
     { socketId: "1", sender: "Istiak Ahammad", message: "Hello" },
-    { socketId: "1", sender: "Bappi", message: "Hi" },
-    { socketId: "1", sender: "Istiak Ahammad", message: "is this code right?" },
+    { socketId: "2", sender: "Bappi", message: "Hi" },
+    { socketId: "3", sender: "Istiak Ahammad", message: "is this code right?" },
     {
-      socketId: "1",
+      socketId: "4",
       sender: "Bappi",
       message:
         "i don't know about coding much but you can take help from cahtgpt.",
@@ -42,9 +35,15 @@ const CodeEdit = () => {
   const handleError = (err) => {
     console.log(err);
     navigate("/error");
-    
-  }
+  };
   useEffect(() => {
+    const isValid = validate(roomId);
+    if (!isValid) {
+      return navigate("/page-not-found");
+    }
+    if (!location.state) {
+      return navigate("/page-not-found");
+    }
     const init = async () => {
       try {
         socketRef.current = await initSocket();
@@ -52,10 +51,24 @@ const CodeEdit = () => {
         socketRef.current.on("connect_error", (err) => handleError(err));
         socketRef.current.on("connect_failed", (err) => handleError(err));
 
+        // Handle Join
         socketRef.current.emit(ACTIONS.JOIN, {
           roomId,
           username: location?.state?.username,
         });
+
+        // Handel Joined User
+        socketRef.current.on(
+          ACTIONS.JOINED,
+          ({ clients, username, socketId }) => {
+            console.log(clients);
+            
+            if (username !== location?.state?.username) {
+              toast.success(`${username} joined the room`);
+            }
+            setClients(clients);
+          }
+        );
       } catch (error) {
         handleError(error);
       }
@@ -106,7 +119,7 @@ const CodeEdit = () => {
               <h3>Group Chat</h3>
               <div className="chat-messages">
                 {chatMessages.map((message) => (
-                  <Message message={message} />
+                  <Message key={message.socketId} message={message} />
                 ))}
               </div>
               <input
