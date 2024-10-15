@@ -52,6 +52,13 @@ io.on("connection", (socket) => {
     socket.leave();
     
   });
+
+  // code change event
+  socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+
+   socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+  });
+
 });
 
 // listen for incoming connections

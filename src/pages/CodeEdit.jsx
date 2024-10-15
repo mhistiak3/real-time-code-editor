@@ -82,7 +82,10 @@ const CodeEdit = () => {
           setClients((prev) =>
             prev.filter((client) => client.socketId !== socketId)
           );
-        })
+        });
+
+      
+        
       } catch (error) {
         handleError(error);
       }
@@ -93,7 +96,7 @@ const CodeEdit = () => {
       socketRef.current.off(ACTIONS.JOINED);
       socketRef.current.off(ACTIONS.DISCONNECTED);
       socketRef.current?.disconnect();
-    }
+    };
   }, []);
   return (
     <div className="editor-page-container">
@@ -155,7 +158,7 @@ const CodeEdit = () => {
       </div>
 
       <div className="right-editor">
-        <EditorComponent />
+        <EditorComponent socketRef={socketRef} roomId={roomId} />
       </div>
     </div>
   );
