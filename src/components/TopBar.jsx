@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const TopBar = () => {
+const TopBar = ({ roomId }) => {
   const navigate = useNavigate();
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(roomId);

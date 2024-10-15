@@ -11,6 +11,7 @@ import TopBar from "../components/TopBar";
 
 const CodeEdit = () => {
   const socketRef = useRef(null);
+  const codeRef = useRef(null);
   const [activeTab, setActiveTab] = useState("users");
   const [clients, setClients] = useState([]);
   const [messageInput, setMessageInput] = useState("");
@@ -24,7 +25,6 @@ const CodeEdit = () => {
   };
 
   // Copy To Clip Board
-
 
   // handleError
   const handleError = (err) => {
@@ -69,15 +69,16 @@ const CodeEdit = () => {
         });
 
         // Handel Joined User
-        socketRef.current.on(
-          ACTIONS.JOINED,
-          ({ clients, username,  }) => {
-            if (username !== location?.state?.username) {
-              toast.success(`${username} joined the room`);
-            }
-            setClients(clients);
+        socketRef.current.on(ACTIONS.JOINED, ({ clients, username,socketId }) => {
+          if (username !== location?.state?.username) {
+            toast.success(`${username} joined the room`);
           }
-        );
+          setClients(clients);
+          socketRef.current.emit(ACTIONS.SYNC_CODE, {
+            code: codeRef.current,
+            socketId,
+          });
+        });
 
         // Handle Disconnected
         socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
@@ -110,7 +111,7 @@ const CodeEdit = () => {
   return (
     <div className="editor-page-container">
       <div className="left-sidebar">
-        <TopBar />
+        <TopBar roomId={roomId} />
         <div className="tabs">
           <button
             className={`tab-btn ${activeTab === "users" ? "active" : ""}`}
@@ -159,7 +160,13 @@ const CodeEdit = () => {
       </div>
 
       <div className="right-editor">
-        <EditorComponent socketRef={socketRef} roomId={roomId} />
+        <EditorComponent
+          socketRef={socketRef}
+          roomId={roomId}
+          onCodeChange={(code) => {
+            codeRef.current = code;
+          }}
+        />
       </div>
     </div>
   );

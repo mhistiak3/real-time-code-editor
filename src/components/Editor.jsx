@@ -5,7 +5,7 @@ import { executeCode } from "../api";
 import { ACTIONS } from "../../Actions";
 import { debounce } from "lodash";
 
-const EditorComponent = ({ socketRef, roomId }) => {
+const EditorComponent = ({ socketRef, roomId, onCodeChange }) => {
   const editorRef = useRef(null);
   const editorValueRef = useRef(""); // Ref to store the current editor value without causing re-renders
   const [value, setValue] = useState(""); // State for debounced value (for updates)
@@ -17,6 +17,7 @@ const EditorComponent = ({ socketRef, roomId }) => {
   // Debounce code change event to limit unnecessary re-renders and emissions
   const debouncedEmitCodeChange = useCallback(
     debounce((code) => {
+      onCodeChange(code);
       if (socketRef.current) {
         socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, code });
       }
@@ -50,22 +51,28 @@ const EditorComponent = ({ socketRef, roomId }) => {
   };
 
   useEffect(() => {
-      if (socketRef.current) {
-        const handleCodeChange = ({ code }) => {
-          if (code !== null && code !== editorValueRef.current) {
-            setValue(code);
+    if (socketRef.current) {
+      socketRef.current.on(ACTIONS.SYNC_CODE, ({ code }) => {
+        if(code){
+          setValue(code);
+          editorValueRef.current = code;
+        }
+        
+      })
+      const handleCodeChange = ({ code }) => {
+        if (code !== null && code !== editorValueRef.current) {
+          setValue(code);
 
-            editorValueRef.current = code;
-          }
-        };
+          editorValueRef.current = code;
+        }
+      };
 
-        socketRef.current.on(ACTIONS.CODE_CHANGE, handleCodeChange);
+      socketRef.current.on(ACTIONS.CODE_CHANGE, handleCodeChange);
 
-        return () => {
-          socketRef.current.off(ACTIONS.CODE_CHANGE, handleCodeChange);
-        };
-      }
-
+      return () => {
+        socketRef.current.off(ACTIONS.CODE_CHANGE, handleCodeChange);
+      };
+    }
   }, [socketRef.current, roomId]);
 
   return (
@@ -78,7 +85,7 @@ const EditorComponent = ({ socketRef, roomId }) => {
           height="80vh"
           theme="vs-dark"
           language={language}
-          defaultValue={value }
+          defaultValue={value}
           onMount={onMount}
           value={value}
           onChange={handleEditorChange} // Use ref-based change handler

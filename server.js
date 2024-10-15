@@ -57,6 +57,11 @@ io.on("connection", (socket) => {
     socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
+  // sync code event
+  socket.on(ACTIONS.SYNC_CODE, ({ socketId, code }) => {
+    io.to(socketId).emit(ACTIONS.SYNC_CODE, { code });
+  });
+
   // message event
   socket.on(ACTIONS.NEW_CHAT_MESSAGE, ({ roomId, messageObj }) => {
     io.to(roomId).emit(ACTIONS.NEW_CHAT_MESSAGE, { messageObj });
