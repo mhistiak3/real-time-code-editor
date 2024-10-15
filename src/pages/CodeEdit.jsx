@@ -69,14 +69,20 @@ const CodeEdit = () => {
         socketRef.current.on(
           ACTIONS.JOINED,
           ({ clients, username, socketId }) => {
-            
-            
             if (username !== location?.state?.username) {
               toast.success(`${username} joined the room`);
             }
             setClients(clients);
           }
         );
+
+        // Handle Disconnected
+        socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
+          toast.success(`${username} left the room`);
+          setClients((prev) =>
+            prev.filter((client) => client.socketId !== socketId)
+          );
+        })
       } catch (error) {
         handleError(error);
       }
