@@ -31,11 +31,19 @@ const CodeEdit = () => {
     setActiveTab(tab);
   };
 
+  // Copy To Clip Board
+  const copyToClipBoard = () => {
+    navigator.clipboard.writeText(roomId);
+    toast.success("Room ID Copied to Clipboard");
+  };
+
   // handleError
   const handleError = (err) => {
     console.log(err);
     navigate("/error");
   };
+
+  // Init Socket
   useEffect(() => {
     const isValid = validate(roomId);
     if (!isValid) {
@@ -61,7 +69,7 @@ const CodeEdit = () => {
         socketRef.current.on(
           ACTIONS.JOINED,
           ({ clients, username, socketId }) => {
-            console.log(clients);
+            
             
             if (username !== location?.state?.username) {
               toast.success(`${username} joined the room`);
@@ -84,7 +92,9 @@ const CodeEdit = () => {
           </div>
           <div className="room-info">
             <div className="room-code">
-              <button className="copy-btn">Copy Room ID</button>
+              <button className="copy-btn" onClick={copyToClipBoard}>
+                Copy Room ID
+              </button>
             </div>
             <button className="leave-btn">Leave Room</button>
           </div>
