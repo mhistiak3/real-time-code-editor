@@ -50,7 +50,6 @@ const EditorComponent = ({ socketRef, roomId }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
       if (socketRef.current) {
         const handleCodeChange = ({ code }) => {
           if (code !== null && code !== editorValueRef.current) {
@@ -66,7 +65,7 @@ const EditorComponent = ({ socketRef, roomId }) => {
           socketRef.current.off(ACTIONS.CODE_CHANGE, handleCodeChange);
         };
       }
-    }, 100);
+
   }, [socketRef.current, roomId]);
 
   return (

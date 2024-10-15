@@ -12,17 +12,8 @@ const CodeEdit = () => {
   const socketRef = useRef(null);
   const [activeTab, setActiveTab] = useState("users");
   const [clients, setClients] = useState([]);
-  const [chatMessages, setChatMessages] = useState([
-    { socketId: "1", sender: "Istiak Ahammad", message: "Hello" },
-    { socketId: "2", sender: "Bappi", message: "Hi" },
-    { socketId: "3", sender: "Istiak Ahammad", message: "is this code right?" },
-    {
-      socketId: "4",
-      sender: "Bappi",
-      message:
-        "i don't know about coding much but you can take help from cahtgpt.",
-    },
-  ]);
+  const [messageInput, setMessageInput] = useState("");
+  const [chatMessages, setChatMessages] = useState([]);
   const { roomId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -41,6 +32,20 @@ const CodeEdit = () => {
   const handleError = (err) => {
     console.log(err);
     navigate("/error");
+  };
+  // Handle message
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!messageInput) return;
+    socketRef.current.emit(ACTIONS.NEW_CHAT_MESSAGE, {
+      roomId,
+      messageObj: {
+        sender: location?.state?.username,
+        message: messageInput,
+        socketId: socketRef.current.id,
+      },
+    });
+    setMessageInput("");
   };
 
   // Init Socket
@@ -84,8 +89,12 @@ const CodeEdit = () => {
           );
         });
 
-      
-        
+        // Messsage Event
+        socketRef.current.on(ACTIONS.NEW_CHAT_MESSAGE, ({ messageObj }) => {
+          console.log(messageObj);
+          
+          setChatMessages((prev) => [...prev, { ...messageObj }]);
+        });
       } catch (error) {
         handleError(error);
       }
@@ -98,6 +107,7 @@ const CodeEdit = () => {
       socketRef.current?.disconnect();
     };
   }, []);
+
   return (
     <div className="editor-page-container">
       <div className="left-sidebar">
@@ -143,15 +153,19 @@ const CodeEdit = () => {
             <div className="chat-tab">
               <h3>Group Chat</h3>
               <div className="chat-messages">
-                {chatMessages.map((message) => (
-                  <Message key={message.socketId} message={message} />
+                {chatMessages.map((message, index) => (
+                  <Message key={index} message={message} />
                 ))}
               </div>
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="chat-input"
-              />
+              <form onSubmit={handleSubmit} >
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  className="chat-input"
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                />
+              </form>
             </div>
           )}
         </div>

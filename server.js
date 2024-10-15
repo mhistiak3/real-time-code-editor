@@ -46,19 +46,21 @@ io.on("connection", (socket) => {
         socketId: socket.id,
         username: userSocketMap[socket.id],
       });
-    })
+    });
 
     delete userSocketMap[socket.id];
     socket.leave();
-    
   });
 
   // code change event
   socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
-
-   socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+    socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
+  // message event
+  socket.on(ACTIONS.NEW_CHAT_MESSAGE, ({ roomId, messageObj }) => {
+    io.to(roomId).emit(ACTIONS.NEW_CHAT_MESSAGE, { messageObj });
+  });
 });
 
 // listen for incoming connections

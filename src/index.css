@@ -261,6 +261,7 @@ input[type="text"]:focus {
   background-color: var(--secondary-color);
   padding: 10px;
   border-radius: 5px;
+  height: 350px;
 }
 .message {
   padding: 10px;
@@ -271,6 +272,7 @@ input[type="text"]:focus {
   flex-direction: column;
   margin-bottom: 10px;
   gap: 6px;
+  
 }
 
 .chat-input {
@@ -415,4 +417,19 @@ h2 {
   text-decoration: none;
   border-radius: 5px;
   transition: background 0.3s;
+}
+
+
+/* * RESPONSIVENESS  */
+
+@media screen and (max-width: 900px) {
+  .editor-page-container{
+    flex-wrap: wrap;
+  }
+  .right-editor{
+    width: 100%;
+  }
+  .left-sidebar{
+    width: 100%;
+  }
 }
