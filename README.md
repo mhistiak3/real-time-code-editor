@@ -1,6 +1,4 @@
-Based on your `package.json` file, here’s an updated **README** with relevant details, including the dependencies and scripts used for development and production.
 
----
 
 # Real-Time Code Editor
 
