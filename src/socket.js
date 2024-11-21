@@ -9,7 +9,8 @@ export const initSocket = async ()=>{
     }
    return io(
      import.meta.env.VITE_BACKEND_URL ||
-       "https://real-time-code-editor-pg85.onrender.com",
+       "https://real-time-code-editor-nu.vercel.app",
      options
    );
 }
+// https://real-time-code-editor-pg85.onrender.com
